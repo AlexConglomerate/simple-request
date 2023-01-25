@@ -15,7 +15,6 @@ function Request() {
         }
     }, [error])
 
-
     const errorCatcher = (e) => {
         const {message} = e
         setError(message)

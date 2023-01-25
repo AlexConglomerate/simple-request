@@ -1,7 +1,11 @@
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
 
-// Тут хранятся наши ошибки: https://5fdda19b90c0.sentry.io/issues/?project=4504564136935424&query=is%3Aunresolved&referrer=issue-stream
+// Здесь подключаем обработчик событий Sentry
+// Он будет обрабатывать ошибки сервера
+// Наши ошибки хранятся здесь: https://5fdda19b90c0.sentry.io/issues/?project=4504564136935424&query=is%3Aunresolved&referrer=issue-stream
+// Для создания первой ошибки можно в index.js поместить это и нажать на кнопку <button onClick={() => methodDoesNotExist()}>Break the world</button>
+
 
 // Инициализация логгера
 function init() {
@@ -13,9 +17,6 @@ function init() {
 }
 
 // Функция для логирования
-function log(error) {
-    Sentry.captureException(error);
-}
-
-export const logger = {init, log};
+const log = error => Sentry.captureException(error)
+export const logger = {init, log}
 

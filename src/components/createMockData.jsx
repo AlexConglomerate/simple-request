@@ -1,11 +1,10 @@
 import React from 'react';
-import professions from '../mocData/professions.json'
-import qualities from '../mocData/qualities.json'
 import users from '../mocData/users.json'
 import httpService from "../services/http.service";
+import {toast} from "react-toastify";
+
 
 function CreateMockData() {
-
     const send = async (array, url, id) => {
         let count = 1
         for (const item of array) {
@@ -17,11 +16,10 @@ function CreateMockData() {
             }
         }
         console.log(`░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░`)
+        toast('В FireBase данные проинициализированы')
     }
 
     const handleClick = async () => {
-        await send(professions, "professions/", "_id")
-        await send(qualities, "qualities/", "_id")
         await send(users, "users/", "_id")
     }
 
@@ -30,7 +28,7 @@ function CreateMockData() {
             <button
                 className={' bg-yellow-300 p-2 m-2 rounded-lg hover:bg-yellow-400 '}
                 onClick={handleClick}
-            >Загрузить
+            >Отправить данные а FireBase
             </button>
         </div>
     );

@@ -12,18 +12,33 @@ axios.defaults.baseURL = configFile.apiEndPoint
 axios.interceptors.request.use(
     function (config) {
         if (configFile.isFireBase) {
-            const containSlash = /\/$/gi.test(config.url)
-            config.url = (containSlash ? config.url.slice(0, -1) : config.url) + '.json'
-            return config
+            const containSlash = /\/$/gi.test(config.url);
+            config.url =
+                (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
         }
-    }, function (error) {
-        return Promise.reject(error)
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
     }
-)
+);
+
+function transformData(data) {
+    return data
+        ? Object.keys(data).map((key) => ({
+            ...data[key]
+        }))
+        : [];
+}
 
 // Тут перехватываем ошибки сервера. interceptors - перехватчики. response - ошибки
 axios.interceptors.response.use(
-    res => res,
+    (res) => {
+        if (configFile.isFireBase) {
+            res.data = {content: transformData(res.data)};
+        }
+        return res;
+    },
     e => {
         const isExpectedError = e.response && e.response.status >= 400 && e.response.status < 500;
         if (!isExpectedError) {

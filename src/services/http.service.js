@@ -18,7 +18,7 @@ axios.interceptors.response.use(
             toast(e) // делаем тост
             console.log(`Неожидаемая ошибка. Что-то с сервером. Название ошибки: `, e.response.data)
         }
-        return Promise.reject((e))
+        return Promise.reject(e)
     })
 
 

@@ -1,49 +1,39 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import config from "../config.json";
+import nameService from "../services/name.service";
+import {toast} from "react-toastify";
 
 function Request() {
-    const [state, setState] = useState();
+    const [state, setState] = useState()
+    const [error, setError] = useState()
 
-    // useEffect(() => {
-    //     const promise = axios
-    //         // .post(config.apiEndPointName, {data}) // пример post запроса
-    //         .get(config.apiEndPointName) // делаем get запрос к полю name
-    //         .then(res => {
-    //             // выводим значение в консоль лог
-    //             console.log(res.data)
-    //             setState(res.data)
-    //         })
-    //     console.log(promise)
-    // }, []);
-
-
-    // // 2 вариант
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const {data} = await axios.get(config.apiEndPointName)
-    //         setState(data)
-    //     }
-    //     fetchData();
-    // }, []);
-
-    // 3 вариант. С обработкой ошибки
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const {data} = await axios.get(config.apiEndPointName + 1)
-                setState(data)
-            } catch (e) {
-                const isExpectedError = e.response && e.response.status >= 400 && e.response.status < 500;
-                // обрабатываем ошибку
-                // Ожидаемые ошибки - это ошибки клиента (№ ошибок от 400 до 499). Возникают, если до бекенда, до сервера не достучались
-                // Неожидаемые ошибки - ошибка сервера (все, кроме диапазона от 400 до 499). То, что бэкенд отправляет вручную
-                if (isExpectedError) console.log(`Ожидаемая ошибка. Её нужно показать клиенту (приложению). Название ошибки: `, e.response.data)
-                if (!isExpectedError) console.log(`Неожидаемая ошибка. Название ошибки: `, e.response.data)
-            }
-        }
-        fetchData()
+        getName()
     })
+
+    // Глобальная обработка ошибок
+    useEffect(() => {
+        if (error != null) {
+            toast(error)
+            setError(null)
+        }
+    }, [error])
+
+
+    const errorCatcher = (e) => {
+        const {message} = e
+        setError(message)
+        toast.error(message)
+    }
+
+    // Функции, которые вызывают функции nameService. Тут таких будет много
+    const getName = async () => {
+        try {
+            const name = await nameService.get()
+            setState(name)
+        } catch (e) {
+            errorCatcher(e)
+        }
+    }
 
 
     return (

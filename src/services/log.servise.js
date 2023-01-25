@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
+import {toast} from "react-toastify";
 
 // Здесь подключаем обработчик событий Sentry
 // Как всё это работает. Если мы выявляем ошибку сервера, то отправляем её на другой сервер, а конкретно на сервер Sentry, где можем спокойно просмотреть список ошибок сервера
@@ -16,6 +17,9 @@ function init() {
 }
 
 // Функция для логирования
-const log = error => Sentry.captureException(error)
+const log = error => {
+    Sentry.captureException(error)
+    toast.error("ОШИБКА НА СЕРВЕРЕ \n" + JSON.stringify(error.message))
+}
 export const logger = {init, log}
 

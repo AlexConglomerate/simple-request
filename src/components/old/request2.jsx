@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import config from "../config.json";
-import httpService from "../services/http.service";
+import config from "../../config.json";
+import httpService from "../../services/http.service";
 import {toast} from "react-toastify";
 
 function Request2() {

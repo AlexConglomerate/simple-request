@@ -3,8 +3,9 @@ import nameService from "../services/name.service";
 import {toast} from "react-toastify";
 
 function Request() {
-    const [state, setState] = useState()
+    const [content, setContent] = useState()
     const [error, setError] = useState()
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getName()
@@ -25,11 +26,12 @@ function Request() {
         toast.error(message)
     }
 
-    // Функции, которые вызывают функции nameService. Тут таких будет много
+    // Делаем кучу таких функций, которые обращаются к серверу
     const getName = async () => {
         try {
             const name = await nameService.get()
-            setState(name)
+            setContent(name)
+            setLoading(false)
         } catch (e) {
             errorCatcher(e)
         }
@@ -38,7 +40,7 @@ function Request() {
 
     return (
         <div>
-            {state && (<h1>{state}</h1>)}
+            {content && (<h1>{content}</h1>)}
         </div>
     );
 }

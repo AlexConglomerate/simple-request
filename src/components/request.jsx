@@ -1,19 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {toast} from "react-toastify";
 import usersService from "../services/users.service";
-import {btn, cell} from "./style";
 import {nanoid} from "nanoid";
-import httpService from "../services/http.service";
 
 function Request() {
     const [users, setUsers] = useState()
     const [error, setError] = useState()
-    const [loading, setLoading] = useState(true);
-
-
-    // useEffect(() => {
-    //     getUser()
-    // })
 
     // Глобальная обработка ошибок
     useEffect(() => {

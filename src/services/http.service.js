@@ -1,5 +1,6 @@
 import axios from "axios";
 import {logger} from "./log.servise";
+import {toast} from "react-toastify";
 
 
 // Тут перехватываем ошибки сервера. interceptors - перехватчики. response - ошибки
@@ -12,6 +13,7 @@ axios.interceptors.response.use(
             // Подробнее: https://lk.result.school/pl/teach/control/lesson/view?id=253585341
             // Подробнее: https://lk.result.school/pl/teach/control/lesson/view?id=258593031
             logger.log(e) // Отправляем ошибку на Sentry
+            toast(e) // делаем тост
             console.log(`Неожидаемая ошибка. Что-то с сервером. Название ошибки: `, e.response.data)
         }
         return Promise.reject((e))

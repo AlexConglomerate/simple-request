@@ -2,10 +2,9 @@ import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
 
 // Здесь подключаем обработчик событий Sentry
-// Он будет обрабатывать ошибки сервера
+// Как всё это работает. Если мы выявляем ошибку сервера, то отправляем её на другой сервер, а конкретно на сервер Sentry, где можем спокойно просмотреть список ошибок сервера
 // Наши ошибки хранятся здесь: https://5fdda19b90c0.sentry.io/issues/?project=4504564136935424&query=is%3Aunresolved&referrer=issue-stream
 // Для создания первой ошибки можно в index.js поместить это и нажать на кнопку <button onClick={() => methodDoesNotExist()}>Break the world</button>
-
 
 // Инициализация логгера
 function init() {

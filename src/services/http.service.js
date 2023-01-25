@@ -1,7 +1,9 @@
 import axios from "axios";
 import {logger} from "./log.servise";
 import {toast} from "react-toastify";
+import config from "../config.json";
 
+axios.defaults.baseURL = config.apiEndPoint
 
 // Тут перехватываем ошибки сервера. interceptors - перехватчики. response - ошибки
 axios.interceptors.response.use(
@@ -18,6 +20,8 @@ axios.interceptors.response.use(
         }
         return Promise.reject((e))
     })
+
+
 
 const httpService = {
     get: axios.get,

@@ -10,7 +10,7 @@ function Request2() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const {data} = await httpService.get(config.apiEndPointName + 1)
+                const {data} = await httpService.get('name.json')
                 setState(data)
             } catch (e) {
                 const isExpectedError = e.response && e.response.status >= 400 && e.response.status < 500;

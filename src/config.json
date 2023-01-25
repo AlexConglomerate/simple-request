@@ -1,5 +1,4 @@
 {
   "apiEndPoint": "https://simple-auth-df62c-default-rtdb.europe-west1.firebasedatabase.app/",
-  "apiEndPointName": "https://simple-auth-df62c-default-rtdb.europe-west1.firebasedatabase.app/name.json",
-  "apiEndPoint2": "https://learn.javascript.ru/"
+  "isFireBase": true
 }

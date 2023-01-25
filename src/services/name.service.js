@@ -1,7 +1,6 @@
-
 import httpService from "./http.service";
 
-const nameEndPoint = 'name.json'
+const nameEndPoint = 'name/'
 
 const nameService = {
     get: async () => {

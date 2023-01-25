@@ -1,9 +1,25 @@
 import axios from "axios";
 import {logger} from "./log.servise";
 import {toast} from "react-toastify";
-import config from "../config.json";
+import configFile from "../config.json";
 
-axios.defaults.baseURL = config.apiEndPoint
+axios.defaults.baseURL = configFile.apiEndPoint
+
+// axios.interceptors.response - это перехватчик ответа с сервера
+// axios.interceptors.request - это перехватчик запросов\
+
+// Если ошибка, меняем / на .json, и снова делаем запрос
+axios.interceptors.request.use(
+    function (config) {
+        if (configFile.isFireBase) {
+            const containSlash = /\/$/gi.test(config.url)
+            config.url = (containSlash ? config.url.slice(0, -1) : config.url) + '.json'
+            return config
+        }
+    }, function (error) {
+        return Promise.reject(error)
+    }
+)
 
 // Тут перехватываем ошибки сервера. interceptors - перехватчики. response - ошибки
 axios.interceptors.response.use(
@@ -15,12 +31,11 @@ axios.interceptors.response.use(
             // Подробнее: https://lk.result.school/pl/teach/control/lesson/view?id=253585341
             // Подробнее: https://lk.result.school/pl/teach/control/lesson/view?id=258593031
             logger.log(e) // Отправляем ошибку на Sentry
-            toast(e) // делаем тост
+            toast.error("ОШИБКА НА СЕРВЕРЕ" + e) // делаем тост
             console.log(`Неожидаемая ошибка. Что-то с сервером. Название ошибки: `, e.response.data)
         }
         return Promise.reject(e)
     })
-
 
 
 const httpService = {
